@@ -1,6 +1,14 @@
  version: "3"
  services:
-    rss:
-      image: dalongrong/nuxt
+    ssr:
+      build:
+        context: ./
+        dockerfile: ./Dockerfile
       ports:
       - "3000:3000"
+    static:
+      build:
+        context: ./
+        dockerfile: ./Dockerfile-static
+      ports:
+      - "8080:80"

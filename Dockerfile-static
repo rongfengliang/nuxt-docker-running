@@ -1,0 +1,16 @@
+FROM node:alpine as build
+WORKDIR /app
+COPY .  /app
+RUN yarn global add  pm2
+LABEL NORE="just for test"
+ENV NODE_ENV=production
+ENV HOST 0.0.0.0
+LABEL AUTHOR="1141591465@qq.com"
+EXPOSE 3000
+RUN yarn && yarn  build && yarn generate
+
+FROM openresty/openresty:alpine
+LABEL AUTHOR="1141591465@qq.com"
+COPY --from=build /app/dist/ /usr/local/openresty/nginx/html/
+COPY nginx.conf usr/local/openresty/nginx/conf/
+EXPOSE 80
